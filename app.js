@@ -22,11 +22,13 @@ window.addEventListener("load", () => {
         })
         .then((data) => {
           console.log(data);
-          const { temperature, summary } = data.currently;
+          const { temperature, summary, icon } = data.currently;
 
           temperatureDegree.textContent = temperature;
           temperatureDescription.textContent = summary;
           locationTimezone.textContent = data.timezone;
+
+          setIcons(icon, document.querySelector(".icon"));
           // formula for celsius
           let celsius = (temperature - 32) * (5 / 9);
 
@@ -41,5 +43,11 @@ window.addEventListener("load", () => {
           });
         });
     });
+  }
+  function setIcons(icon, iconID) {
+    const skycons = new Skycons({ color: "white" });
+    const currentIcon = icon.replace(/-/g, "_").toUpperCase();
+    skycons.play();
+    return skycons.set(iconID, Skycons[currentIcon]);
   }
 });
